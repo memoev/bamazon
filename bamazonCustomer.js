@@ -31,7 +31,7 @@ function afterConnection() {
             data.push(headers);
             if (err) throw err;
             // console.log(res);
-            console.log("\x1b[33m", 'Welcome to Bamazon!', '\x1b[37m');
+            console.log('\x1b[33m', 'Welcome to Bamazon!', '\x1b[37m');
             for (i = 0; i < res.length; i++) {
                 const row = [];
                 row.push(res[i].item_id);
@@ -69,13 +69,41 @@ function afterConnection() {
                                 item_id: res.productId
                             }
                         ],
-                        function (err, res) {
+                        function (err, response) {
                             if (err) throw err;
-                            // console.log(res);
-                            for (i = 0; i < res.length; i++) {
-                                console.log(res[i]);
+                            //console.log(res);
+                            // for (i = 0; i < response.length; i++) {
+                            //     console.log(response[i]);
+                            // }
+                            //connection.end();
+                            var quantityLeft = response[0].stock_quantity - res.productQty                          
+                            var moneyMoney = response[0].price;
+                            //console.log(moneyMoney);
+                            
+                            if(response[0].stock_quantity < res.productQty) {
+                                console.log('\x1b[31m', 'Insufficient quantity!', '\x1b[37m');
+                            } else {
+                                connection.query("UPDATE products SET ? WHERE ?",
+                                    [
+                                        {
+                                            stock_quantity: quantityLeft
+                                        },
+                                        {
+                                            item_id: res.productId
+                                        }
+                                    ],
+                                    function (err, response) {
+                                        if (err) throw err;
+                                        //console.log(res);
+                                        // for (i = 0; i < response.length; i++) {
+                                        //     console.log(response[i]);
+                                        // }
+                                        
+                                        var totalCost = res.productQty * moneyMoney;
+                                        console.log('\x1b[33m', "\nThe total cost of your purchase is: " + totalCost + "\nThanks for buying at Bamazon!", '\x1b[37m');
+                                        connection.end();                          
+                                    });
                             }
-                            connection.end();
                         });
                 });
         });           
