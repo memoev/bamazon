@@ -49,5 +49,34 @@ function afterConnection() {
             output = table(data, config);
             
             console.log(output);
+
+            inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        message: "What's the ID of the product you want to buy?",
+                        name: "productId"
+                    },
+                    {
+                        type: "input",
+                        message: "How many units?",
+                        name: "productQty"
+                    }
+                ]).then(function (res) {
+                    connection.query("SELECT * FROM products WHERE ?",
+                        [
+                            {
+                                item_id: res.productId
+                            }
+                        ],
+                        function (err, res) {
+                            if (err) throw err;
+                            // console.log(res);
+                            for (i = 0; i < res.length; i++) {
+                                console.log(res[i]);
+                            }
+                            connection.end();
+                        });
+                });
         });           
 }
