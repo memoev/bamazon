@@ -19,6 +19,8 @@ var connection = mysql.createConnection({
 run();
 
 function run() {
+    console.log('\x1b[35m', 'Welcome to the BaManager User Interface!', '\x1b[37m');
+    console.log('\x1b[33m', "Press Control + C to exit the application", '\x1b[37m')
     inquirer
         .prompt([
             {
@@ -56,7 +58,6 @@ function productsForSale() {
             data.push(headers);
             if (err) throw err;
             // console.log(res);
-            console.log('\x1b[33m', 'Welcome to Bamazon!', '\x1b[37m');
             for (i = 0; i < res.length; i++) {
                 const row = [];
                 row.push(res[i].item_id);
@@ -87,7 +88,6 @@ function viewLowInv() {
             data.push(headers);
             if (err) throw err;
             // console.log(res);
-            console.log('\x1b[33m', 'Welcome to the Bamazon manager UI!', '\x1b[37m');
             for (i = 0; i < res.length; i++) {
                 const row = [];
                 row.push(res[i].item_id);
@@ -158,5 +158,43 @@ function addToInv() {
 }
 
 function addNewProduct() {
-    
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What product you want to add?",
+                name: "productName"
+            },
+            {
+                type: "input",
+                message: "What's the product department?",
+                name: "productDepa"
+            },
+            {
+                type: "input",
+                message: "What's the price?",
+                name: "productPrice"
+            },
+            {
+                type: "input",
+                message: "Initial Stock Qty?",
+                name: "productInitQ"
+            }
+        ]).then(function (res) {
+            connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES(?, ?, ?, ?)",
+                [res.productName, res.productDepa, res.productPrice, res.productInitQ],
+                function (err, response) {
+                    if (err) {
+                        throw err;
+                    } else {
+                        console.log('\x1b[33m', "Product has been added!\n", '\x1b[37m');
+                    }
+                    //console.log(res);
+                    // for (i = 0; i < response.length; i++) {
+                    //     console.log(response[i]);
+                    // }
+
+                    run();
+                }); 
+    });
 }
