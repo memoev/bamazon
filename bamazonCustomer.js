@@ -81,7 +81,8 @@ function afterConnection() {
                             //console.log(moneyMoney);
                             
                             if(response[0].stock_quantity < res.productQty) {
-                                console.log('\x1b[31m', 'Insufficient quantity!', '\x1b[37m');
+                                console.log('\x1b[31m', 'Insufficient quantity!\n', '\x1b[37m');
+                                afterConnection();
                             } else {
                                 connection.query("UPDATE products SET ? WHERE ?",
                                     [
