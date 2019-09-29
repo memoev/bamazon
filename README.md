@@ -56,4 +56,15 @@ Working web browser (e.g Chrome, Firefox, Safari, Opera, etc.) from the list of 
   brew install node
   ```
 
-## Example Images
+## Example Images :camera:
+
+**Bamazon Customer UI**
+
+![Bamazon_Customer](images/bamazonCustomer_screenshot.png)
+
+**Bamazon Manager UI**
+
+![Bamazon_Manager1](images/bamazonManager_screenshot.png)
+![Bamazon_Manager2](images/bamazonManager_screenshot2.png)
+![Bamazon_Manager3](images/bamazonManager_screenshot3.png)
+![Bamazon_Manager4](images/bamazonManager_screenshot4.png)
